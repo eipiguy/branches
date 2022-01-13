@@ -1,5 +1,0 @@
-if(EXISTS "C:/Users/ndnes/Dropbox/projects/code/branches/test/build/test[1]_tests.cmake")
-  include("C:/Users/ndnes/Dropbox/projects/code/branches/test/build/test[1]_tests.cmake")
-else()
-  add_test(test_NOT_BUILT test_NOT_BUILT)
-endif()

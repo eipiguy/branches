@@ -1,0 +1,5 @@
+if(EXISTS "C:/Users/ndnes/Dropbox/projects/code/branches/build/branches[1]_tests.cmake")
+  include("C:/Users/ndnes/Dropbox/projects/code/branches/build/branches[1]_tests.cmake")
+else()
+  add_test(branches_NOT_BUILT branches_NOT_BUILT)
+endif()

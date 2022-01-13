@@ -1,0 +1,165 @@
+Start testing: Jan 11 20:26 Central Standard Time
+----------------------------------------------------------
+1/6 Testing: ConstructorTest.DefaultValuesSetCorrectly
+1/6 Test: ConstructorTest.DefaultValuesSetCorrectly
+Command: "C:/Users/ndnes/Dropbox/projects/code/branches/atp/build/Debug/constructor.exe" "--gtest_filter=ConstructorTest.DefaultValuesSetCorrectly" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/ndnes/Dropbox/projects/code/branches/atp/build
+"ConstructorTest.DefaultValuesSetCorrectly" start time: Jan 11 20:26 Central Standard Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\ndnes\Dropbox\projects\code\branches\atp\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ConstructorTest.DefaultValuesSetCorrectly
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConstructorTest
+[ RUN      ] ConstructorTest.DefaultValuesSetCorrectly
+[       OK ] ConstructorTest.DefaultValuesSetCorrectly (0 ms)
+[----------] 1 test from ConstructorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ConstructorTest.DefaultValuesSetCorrectly" end time: Jan 11 20:26 Central Standard Time
+"ConstructorTest.DefaultValuesSetCorrectly" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/6 Testing: ConstructorTest.StartingValuesAsGiven
+2/6 Test: ConstructorTest.StartingValuesAsGiven
+Command: "C:/Users/ndnes/Dropbox/projects/code/branches/atp/build/Debug/constructor.exe" "--gtest_filter=ConstructorTest.StartingValuesAsGiven" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/ndnes/Dropbox/projects/code/branches/atp/build
+"ConstructorTest.StartingValuesAsGiven" start time: Jan 11 20:26 Central Standard Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\ndnes\Dropbox\projects\code\branches\atp\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ConstructorTest.StartingValuesAsGiven
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConstructorTest
+[ RUN      ] ConstructorTest.StartingValuesAsGiven
+[       OK ] ConstructorTest.StartingValuesAsGiven (0 ms)
+[----------] 1 test from ConstructorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ConstructorTest.StartingValuesAsGiven" end time: Jan 11 20:26 Central Standard Time
+"ConstructorTest.StartingValuesAsGiven" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/6 Testing: ConstructorTest.InitialValuesLessThanMinSetToMin
+3/6 Test: ConstructorTest.InitialValuesLessThanMinSetToMin
+Command: "C:/Users/ndnes/Dropbox/projects/code/branches/atp/build/Debug/constructor.exe" "--gtest_filter=ConstructorTest.InitialValuesLessThanMinSetToMin" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/ndnes/Dropbox/projects/code/branches/atp/build
+"ConstructorTest.InitialValuesLessThanMinSetToMin" start time: Jan 11 20:26 Central Standard Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\ndnes\Dropbox\projects\code\branches\atp\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ConstructorTest.InitialValuesLessThanMinSetToMin
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConstructorTest
+[ RUN      ] ConstructorTest.InitialValuesLessThanMinSetToMin
+[       OK ] ConstructorTest.InitialValuesLessThanMinSetToMin (0 ms)
+[----------] 1 test from ConstructorTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ConstructorTest.InitialValuesLessThanMinSetToMin" end time: Jan 11 20:26 Central Standard Time
+"ConstructorTest.InitialValuesLessThanMinSetToMin" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/6 Testing: ChildTest.ChildIsCreatedWithDefaultValues
+4/6 Test: ChildTest.ChildIsCreatedWithDefaultValues
+Command: "C:/Users/ndnes/Dropbox/projects/code/branches/atp/build/Debug/children.exe" "--gtest_filter=ChildTest.ChildIsCreatedWithDefaultValues" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/ndnes/Dropbox/projects/code/branches/atp/build
+"ChildTest.ChildIsCreatedWithDefaultValues" start time: Jan 11 20:26 Central Standard Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\ndnes\Dropbox\projects\code\branches\atp\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ChildTest.ChildIsCreatedWithDefaultValues
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ChildTest
+[ RUN      ] ChildTest.ChildIsCreatedWithDefaultValues
+[       OK ] ChildTest.ChildIsCreatedWithDefaultValues (0 ms)
+[----------] 1 test from ChildTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ChildTest.ChildIsCreatedWithDefaultValues" end time: Jan 11 20:26 Central Standard Time
+"ChildTest.ChildIsCreatedWithDefaultValues" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/6 Testing: ChildTest.GetIndexAboveRangeGivesNull
+5/6 Test: ChildTest.GetIndexAboveRangeGivesNull
+Command: "C:/Users/ndnes/Dropbox/projects/code/branches/atp/build/Debug/children.exe" "--gtest_filter=ChildTest.GetIndexAboveRangeGivesNull" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/ndnes/Dropbox/projects/code/branches/atp/build
+"ChildTest.GetIndexAboveRangeGivesNull" start time: Jan 11 20:26 Central Standard Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\ndnes\Dropbox\projects\code\branches\atp\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ChildTest.GetIndexAboveRangeGivesNull
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ChildTest
+[ RUN      ] ChildTest.GetIndexAboveRangeGivesNull
+[       OK ] ChildTest.GetIndexAboveRangeGivesNull (0 ms)
+[----------] 1 test from ChildTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ChildTest.GetIndexAboveRangeGivesNull" end time: Jan 11 20:26 Central Standard Time
+"ChildTest.GetIndexAboveRangeGivesNull" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/6 Testing: ChildTest.GetNegativeIndexGivesNull
+6/6 Test: ChildTest.GetNegativeIndexGivesNull
+Command: "C:/Users/ndnes/Dropbox/projects/code/branches/atp/build/Debug/children.exe" "--gtest_filter=ChildTest.GetNegativeIndexGivesNull" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/ndnes/Dropbox/projects/code/branches/atp/build
+"ChildTest.GetNegativeIndexGivesNull" start time: Jan 11 20:26 Central Standard Time
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\ndnes\Dropbox\projects\code\branches\atp\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ChildTest.GetNegativeIndexGivesNull
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ChildTest
+[ RUN      ] ChildTest.GetNegativeIndexGivesNull
+[       OK ] ChildTest.GetNegativeIndexGivesNull (0 ms)
+[----------] 1 test from ChildTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ChildTest.GetNegativeIndexGivesNull" end time: Jan 11 20:26 Central Standard Time
+"ChildTest.GetNegativeIndexGivesNull" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jan 11 20:26 Central Standard Time

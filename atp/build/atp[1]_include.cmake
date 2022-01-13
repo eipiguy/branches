@@ -1,0 +1,5 @@
+if(EXISTS "C:/Users/ndnes/Dropbox/projects/code/branches/atp/build/atp[1]_tests.cmake")
+  include("C:/Users/ndnes/Dropbox/projects/code/branches/atp/build/atp[1]_tests.cmake")
+else()
+  add_test(atp_NOT_BUILT atp_NOT_BUILT)
+endif()

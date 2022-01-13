@@ -1,0 +1,5 @@
+add_test( ConstructorTest.DefaultValuesSetCorrectly C:/Users/ndnes/Dropbox/projects/code/branches/atp/build/Debug/atp.exe [==[--gtest_filter=ConstructorTest.DefaultValuesSetCorrectly]==] --gtest_also_run_disabled_tests)
+set_tests_properties( ConstructorTest.DefaultValuesSetCorrectly PROPERTIES WORKING_DIRECTORY C:/Users/ndnes/Dropbox/projects/code/branches/atp/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test( ConstructorTest.InitialValuesLessThanMinSetToMin C:/Users/ndnes/Dropbox/projects/code/branches/atp/build/Debug/atp.exe [==[--gtest_filter=ConstructorTest.InitialValuesLessThanMinSetToMin]==] --gtest_also_run_disabled_tests)
+set_tests_properties( ConstructorTest.InitialValuesLessThanMinSetToMin PROPERTIES WORKING_DIRECTORY C:/Users/ndnes/Dropbox/projects/code/branches/atp/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set( atp_TESTS ConstructorTest.DefaultValuesSetCorrectly ConstructorTest.InitialValuesLessThanMinSetToMin)

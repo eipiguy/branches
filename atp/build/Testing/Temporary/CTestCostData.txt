@@ -1,0 +1,13 @@
+HelloTest.BasicAssertions 8 0.00243594
+BranchesConstructor.DefaultCreatedSuccessfully 2 0.00307825
+ConstructorTest.HasDefaultValues 2 0
+DefaultConstructorTest.DefaultValuesSetCorrectly 1 0.0054233
+ConstructorTest.DefaultValuesSetCorrectly 11 0.000635255
+ConstructorTest.InitialValuesLessThanMinSetToMin 11 0.000560091
+ChildTest.ChildIsCreatedWithDefaultValues 8 0.000777588
+ConstructorTest.StartingValuesAsGiven 5 0.00117444
+ChildTest.IndexAboveRangeGivesNull 1 0.0060093
+ChildTest.NegativeIndexGivesNull 1 0.0058697
+ChildTest.GetIndexAboveRangeGivesNull 2 0.00304755
+ChildTest.GetNegativeIndexGivesNull 2 0.00295945
+---
