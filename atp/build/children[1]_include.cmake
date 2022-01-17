@@ -1,5 +1,0 @@
-if(EXISTS "C:/Users/ndnes/Dropbox/projects/code/branches/atp/build/children[1]_tests.cmake")
-  include("C:/Users/ndnes/Dropbox/projects/code/branches/atp/build/children[1]_tests.cmake")
-else()
-  add_test(children_NOT_BUILT children_NOT_BUILT)
-endif()

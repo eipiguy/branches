@@ -19,15 +19,12 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 include_directories(../include)
-add_library(branches ../build/lib/Debug/branches.lib)
+add_library(branches ../src/branches.cpp)
 set_target_properties(branches PROPERTIES LINKER_LANGUAGE CXX)
 
 enable_testing()
 add_executable(constructor src/constructor.cpp)
-add_executable(children src/children.cpp)
 
 target_link_libraries(constructor branches gtest_main)
-target_link_libraries(children branches gtest_main)
 include(GoogleTest)
 gtest_discover_tests(constructor)
-gtest_discover_tests(children)

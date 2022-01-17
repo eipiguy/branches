@@ -170,10 +170,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{93786059-58C0-35B3-9806-38E30B27A9FE}</Project>
       <Name>branches</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Users\ndnes\Dropbox\projects\code\branches\atp\build\children.vcxproj">
-      <Project>{CCC66362-541A-3A86-89A4-22F0E627A2CA}</Project>
-      <Name>children</Name>
-    </ProjectReference>
     <ProjectReference Include="C:\Users\ndnes\Dropbox\projects\code\branches\atp\build\constructor.vcxproj">
       <Project>{68B613E4-FF77-36AD-BDB8-D63E0910651A}</Project>
       <Name>constructor</Name>

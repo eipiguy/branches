@@ -3,7 +3,8 @@
         "vector": "cpp",
         "iosfwd": "cpp",
         "xlocale": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "stdexcept": "cpp"
     },
     "cmake.configureOnOpen": true
 }

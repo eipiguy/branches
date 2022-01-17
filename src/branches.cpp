@@ -1,48 +1,85 @@
 #include "branches.hpp"
 
-Branch :: Branch(
-    Branch* first_parent)
-    :   diam(MIN_DIAM),
-        length(MIN_LENGTH),
-        parent(first_parent) {}
+///////////////////////////////////////////////////////////////////////////////
 
-Branch :: Branch(
-    Branch* first_parent,
-    double first_diam,
-    double first_length)
-    :   diam(first_diam >= MIN_DIAM ? first_diam : MIN_DIAM),
-        length(first_length >= MIN_LENGTH ? first_length : MIN_LENGTH),
-        parent(first_parent) {}
+double Point :: operator[](int i){
 
-Branch :: Branch()
-    :   diam(MIN_DIAM),
-        length(MIN_LENGTH) {}
+    switch(i){
+        
+        case 0:
+            return x;
+        break;
+        
+        case 1:
+            return y;
+        break;
 
-Branch :: Branch(
-    double first_diam,
-    double first_length)
-    :   diam(first_diam >= MIN_DIAM ? first_diam : MIN_DIAM),
-        length(first_length >= MIN_LENGTH ? first_length : MIN_LENGTH) {}
+        case 2:
+            return z;
+        break;
+
+        default:
+            throw std::out_of_range( "Point only has x, y, and z values" );
+    }
+
+    // should not get here
+    throw std::runtime_error( "should not be outside operator[] switch statement" );
+}
+
+Point Point :: operator=(Point& copyFrom){
+    Point copy = { copyFrom.x, copyFrom.y, copyFrom.z };
+    return copy;
+}
+
+bool Point :: operator==(Point& compareAgainst){
+    return (x == compareAgainst.x) 
+        && (y == compareAgainst.y)
+        && (z == compareAgainst.z);
+}
+
+Point Point :: operator+(Point& addTo){
+    Point sum = { 0, 0, 0 };
+    sum.x = x + addTo.x;
+    sum.y = y + addTo.y;
+    sum.z = z + addTo.z;
+    return sum;
+}
+
+Point Point :: operator-(){
+    Point inverse = { -x, -y, -z };
+    return inverse;
+}
+
+Point Point :: operator-(Point& subtractFrom){
+    Point difference = { 0, 0, 0 };
+    difference.x = x - subtractFrom.x;
+    difference.y = y - subtractFrom.y;
+    difference.z = z - subtractFrom.z;
+    return difference;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+Node :: Node() {}
+
+Node :: Node(Branch &inputParent) 
+    : parent(&inputParent) {}
+
+Branch* Node :: getParentPtr() { return parent; }
+double Node :: getDistanceAlongParent() { return distanceAlongParent; }
+double Node :: getAngleFromParentPlane() { return angleFromParentPlane; }
+
+///////////////////////////////////////////////////////////////////////////////
+
+Branch :: Branch(Node &baseNode){}
+
+///////////////////////////////////////////////////////////////////////////////
 
 double Branch :: getDiam() { return diam; }
 double Branch :: getLength() { return length; }
-Branch* Branch :: getParentPtr() { return parent; }
-Branch* Branch :: operator[](int index) {
-    return ( 0 <= index && index < children.size() ) ? children[index] : nullptr;
-}
-Branch* Branch :: getLastChild() { return children[children.size()-1]; }
 
-double Branch :: getDistFromParent() { return distFromParent; }
-double Branch :: getAngleFromParent() { return angleFromParent; }
-
-void Branch :: appendChild() {
-    children.push_back(new Branch(this, length, 0));
-}
-void Branch :: appendChild(
-    double distFromParentIn,
-    double anglefromParentIn)
-{
-    children.push_back(new Branch(this));
-    children.back()->distFromParent = distFromParentIn;
-    children.back()->angleFromParent = anglefromParentIn;
+int Branch :: numChildren(){ return children.size(); }
+Node* Branch :: operator[](int index) {
+    return ( 0 <= index && index < children.size() ) ?
+        children[index] : nullptr;
 }
