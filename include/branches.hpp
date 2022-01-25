@@ -1,5 +1,8 @@
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <vector>
 //#include <stdexcept>
+#include "geometry.hpp"
 
 //===========================================================================//
 
@@ -8,47 +11,34 @@
 
 //---------------------------------------------------------------------------//
 
-struct Point;
 class Node;
 class Branch;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-struct Point {
-    double x, y, z;
-    double operator[](int i);
-    Point operator=(Point& copyFrom);
-    bool operator==(Point& compareAgainst);
-    Point operator+(Point& addTo);
-    Point operator-();
-    Point operator-(Point& subtractFrom);
-};
-
-//===========================================================================//
-
 class Node {
     private:
-    double distanceAlongParent = 0;
-    double angleFromParentPlane = 0;
     Branch* parent = nullptr;
-    Point location = { 0, 0, 0 };
+    Point root = { 0, 0, 0 };
 
     Node(Branch &inputParent);
 
     public:
     Node();
+    Node(double x, double y);
 
     Branch* getParentPtr();
     double getDistanceAlongParent();
     double getAngleFromParentPlane();
 };
 
-//---------------------------------------------------------------------------//
+//===========================================================================//
 
 class Branch : public Node {
     private:
-    double diam = MIN_DIAM;
-    double length = MIN_LENGTH;
+    Point direction = { 0, 0, 1 };
+    double length = 0;
+    double diam = 0;
     std::vector<Branch*> children;
 
     Branch(Node& baseNode);

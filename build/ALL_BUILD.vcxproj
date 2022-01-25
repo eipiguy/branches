@@ -170,6 +170,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{5D496119-4C20-32D0-99FA-CD3056E7FC87}</Project>
       <Name>branches</Name>
     </ProjectReference>
+    <ProjectReference Include="C:\Users\ndnes\Dropbox\projects\code\branches\build\tree_builder.vcxproj">
+      <Project>{92EFFC2B-589A-3474-AB57-6F157CDC9E3A}</Project>
+      <Name>tree_builder</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

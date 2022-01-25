@@ -1,18 +1,11 @@
 {
-	"archive" : 
-	{
-		"commandFragments" : 
-		[
-			{
-				"fragment" : "/machine:X86",
-				"role" : "flags"
-			}
-		]
-	},
 	"artifacts" : 
 	[
 		{
-			"path" : "lib/Debug/branches.lib"
+			"path" : "bin/Debug/tree_builder.exe"
+		},
+		{
+			"path" : "bin/Debug/tree_builder.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -20,7 +13,7 @@
 	{
 		"commands" : 
 		[
-			"add_library",
+			"add_executable",
 			"include_directories"
 		],
 		"files" : 
@@ -35,7 +28,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 10,
+				"line" : 11,
 				"parent" : 0
 			},
 			{
@@ -75,9 +68,28 @@
 			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "branches::@6890427a1f51a3e7e1df",
-	"name" : "branches",
-	"nameOnDisk" : "branches.lib",
+	"id" : "tree_builder::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:X86 /debug /INCREMENTAL /subsystem:console",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "tree_builder",
+	"nameOnDisk" : "tree_builder.exe",
 	"paths" : 
 	{
 		"build" : ".",
@@ -98,9 +110,9 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/branches.cpp",
+			"path" : "src/tree_builder.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
-	"type" : "STATIC_LIBRARY"
+	"type" : "EXECUTABLE"
 }
