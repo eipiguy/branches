@@ -1,0 +1,25 @@
+# ./branches/CMakeLists.txt
+cmake_minimum_required( VERSION 3.15 )
+
+add_library( branches )
+target_include_directories( branches
+    PRIVATE
+        headers 
+)
+target_sources( branches
+    PUBLIC
+        headers/branches.hpp
+        headers/geom.hpp
+    PRIVATE
+        src/branches.cpp
+)
+
+add_executable( test_run )
+target_include_directories( test_run
+    PRIVATE
+        headers
+)
+target_sources( test_run
+    PRIVATE
+        src/test_run.cpp
+)

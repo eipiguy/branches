@@ -1,0 +1,6 @@
+# ./project_meta_info.in
+
+set( project_version        0.0.1 )
+set( project_description    "A generator for tree branch structures" )
+set( project_homepage       "https://github.com/eipiguy/branches" )
+set( project_languages      CXX )
