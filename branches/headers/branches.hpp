@@ -1,25 +1,46 @@
 #include <vector>
+#include <memory>
+
+#include "geom.hpp"
 
 class Branch;
+class Leaf;
 
 using std::size_t;
-typedef std::vector<Branch*> vBranch;
+typedef std::vector<std::unique_ptr<Branch>> vBranch;
+typedef std::vector<std::unique_ptr<Leaf>> vLeaf;
 
 class Branch {
-    protected:
-    Branch* parent = nullptr;
-    vBranch children = { nullptr };
-    double
-        length = 0,
-        diameter = 0;
+    class CurveProfile {
+        protected:
+        Point base;
+        Direction length;
 
-    Branch();
-    Branch( Branch &inputParent );
+        public:
+        CurveProfile(){}
+        CurveProfile( Point baseIn, Direction lengthIn );
+
+        double pathLength();
+        Point getPoint( const double &param );
+        Point getEnd();
+
+        void print();
+    };
+
+    protected:
+    double diameter = 0;
+    CurveProfile profile = {};
+    vBranch children = {};
+    vLeaf leaves = {};
 
     public:
-    Branch* getParent();
-    Branch* operator[]( size_t i );
+    Branch(){}
+    void addChild( std::unique_ptr<Branch> &child );
 
-    double getLength();
+    size_t getNumChildren();
     double getDiameter();
+
+    void print();
 };
+
+class Leaf {};

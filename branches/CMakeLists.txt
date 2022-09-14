@@ -11,6 +11,7 @@ target_sources( branches
         headers/branches.hpp
         headers/geom.hpp
     PRIVATE
+        src/geom.cpp
         src/branches.cpp
 )
 
@@ -23,3 +24,5 @@ target_sources( test_run
     PRIVATE
         src/test_run.cpp
 )
+
+target_link_libraries( test_run PRIVATE branches )
