@@ -42,7 +42,12 @@ class Direction {
     friend Direction operator*( double lhs, const Direction &rhs );
     friend Direction operator*( Direction lhs, const double &rhs );
 
+    // Dot Product
     friend double operator*( Direction lhs, const Direction &rhs );
+
+    friend Direction cross( const Direction &lhs, const Direction &rhs );
+
+    void rotate( const double angle, Direction &normalAxis );
 
     double length();
 

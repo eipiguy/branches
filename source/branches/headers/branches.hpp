@@ -9,6 +9,7 @@ class Leaf;
 
 #define MIN_DIAM 0.2
 #define MIN_LENGTH 0.1
+#define DEFLECTION_RAD 0.17453292519943295769236907684886
 #define LEAVES_PER_BRANCH 1
 
 using std::size_t;
@@ -23,7 +24,7 @@ class Leaf {
     Point base;
 
     Leaf(){}
-    Leaf( Point &baseIn, Direction &lengthIn, double occlusionIn = 1 );
+    Leaf( const Point &baseIn, const Direction &lengthIn, const double occlusionIn = 1 );
 
     Point getEnd();
     void print();
@@ -36,13 +37,15 @@ class Branch {
         Direction length;
 
         CurveProfile(){}
-        CurveProfile( Point &baseIn, Direction &lengthIn );
+        CurveProfile( const Point &baseIn, const Direction &lengthIn );
 
         double pathLength();
         Point getPoint( const double &param );
         Point getEnd();
 
-        double measureRadAngle( CurveProfile &comparison );
+        double measureRadAngle( const CurveProfile &comparison );
+
+        void rotate( const double angle, Direction &normalAxis );
 
         void print();
     };
@@ -53,6 +56,7 @@ class Branch {
     aLeaf leaves = {};
     vBranch children = {};
 
+    void adjustNewChild( std::unique_ptr<Branch> &child );
     void resetChildBasePoints();
     void addLeaf( std::unique_ptr<Leaf> &leaf );
 
@@ -67,7 +71,10 @@ class Branch {
     Direction getTipToTail();
 
     double measureRadAngle( Branch &comparison );
-    double measureRadAngle( size_t i, size_t j );
+    double measureRadAngle( const size_t i, const size_t j );
+    double measureMinRadAngle( Branch &comparison );
+
+    void rotate( const double angle, Direction &normalAxis );
 
     void print();
 };

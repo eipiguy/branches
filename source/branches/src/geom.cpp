@@ -1,4 +1,5 @@
 #include <iostream>
+#include <math.h>
 
 #include "geom.hpp"
 
@@ -98,6 +99,19 @@ Direction operator*( Direction lhs, const double &rhs ) {
 
 double operator*( Direction lhs, const Direction &rhs ) {
     return lhs.dx*rhs.dx + lhs.dy*rhs.dy + lhs.dz*rhs.dz;
+}
+
+Direction cross( const Direction &lhs, const Direction &rhs ) {
+    return Direction( lhs.dy*rhs.dz - lhs.dz*rhs.dy, lhs.dz*rhs.dx - lhs.dx*rhs.dz, lhs.dx*rhs.dy - lhs.dy*rhs.dx );
+}
+
+void Direction :: rotate( const double angle, Direction &normalAxis ) {
+    Direction unitAxis = ( 1 / normalAxis.length() ) * normalAxis;
+    Direction normal = cross( unitAxis, *this );
+    double cosAngle = cos(angle);
+    double sinAngle = sin(angle);
+
+    *this = ( unitAxis * (*this) )*unitAxis + cosAngle*cross( normal, unitAxis ) + sinAngle*normal;
 }
 
 double Direction :: length() { return sqrt((*this) * (*this));}

@@ -32,8 +32,59 @@ void Branch :: resetChildBasePoints() {
 }
 
 void Branch :: addChild() {
-    children.emplace_back(std::make_unique<Branch>());
+    auto newChild = std::make_unique<Branch>();
+    int numAttempts = 10;
+    while( measureMinRadAngle(*newChild) < DEFLECTION_RAD && --numAttempts > 0 ) {
+        adjustNewChild(newChild);
+        cout << "Min radian angle to children = ";
+        cout << measureMinRadAngle(*newChild) << endl;
+    }
+
+    children.emplace_back(std::move(newChild));
     resetChildBasePoints();
+}
+
+void Branch :: adjustNewChild( std::unique_ptr<Branch> &newChild ) {
+    double radAngleToChild = 0;
+    Direction averageResult = { 0, 0, 0 };
+    Direction thisResult = { 0, 0, 0 };
+    bool collision = false;
+    for( auto &child : children ) {
+        radAngleToChild = abs( child->measureRadAngle(*newChild) );
+        if( radAngleToChild < DEFLECTION_RAD ) {
+            collision = true;
+            cout << "Radian angle to newChild = " << radAngleToChild << " is less than allowed " << DEFLECTION_RAD << endl;
+            cout << "Rotating away" << endl;
+
+            Direction crossNew = cross( ( 1 / child->profile.length.length() ) * child->profile.length, ( 1 / newChild->profile.length.length() ) * newChild->profile.length );
+
+            if( crossNew.length() < MIN_LENGTH ) {
+                crossNew = { 1, 0, 0 };
+            }
+
+            thisResult = newChild->profile.length;
+            thisResult.rotate( DEFLECTION_RAD - radAngleToChild, crossNew );
+            averageResult += thisResult;
+            thisResult = { 0, 0, 0 };
+        }
+    }
+
+    if(collision) {
+        averageResult *= 1 / averageResult.length();
+        newChild->profile.length = averageResult;
+    }
+}
+
+double Branch :: measureMinRadAngle( Branch &comparison ) {
+    double radAngleToChild = 0;
+    double minRadAngleToChild = 2;
+    for( auto &child : children ) {
+        radAngleToChild = abs( child->measureRadAngle(comparison) );
+        if( radAngleToChild < minRadAngleToChild ) {
+            minRadAngleToChild = radAngleToChild;
+        }
+    }
+    return minRadAngleToChild;
 }
 
 void Branch :: addChild( std::unique_ptr<Branch> &child ) {
@@ -51,6 +102,10 @@ double Branch :: measureRadAngle( Branch &comparison ) {
 
 double Branch :: measureRadAngle( size_t i, size_t j ) {
     return acos( ( children[0]->getTipToTail() * children[1]->getTipToTail() ) / ( children[0]->profile.pathLength() * children[1]->profile.pathLength() ) );
+}
+
+void Branch :: rotate( const double angle, Direction &normalAxis ) {
+    profile.rotate( angle, normalAxis );
 }
 
 //=============================================================================
@@ -80,7 +135,7 @@ void Branch :: print() {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-Branch :: CurveProfile :: CurveProfile( Point &baseIn, Direction &lengthIn )
+Branch :: CurveProfile :: CurveProfile( const Point &baseIn, const Direction &lengthIn )
     : base(baseIn), length(lengthIn) {}
 
 double Branch :: CurveProfile :: pathLength() {
@@ -95,8 +150,12 @@ Point Branch :: CurveProfile :: getEnd() {
     return base + length;
 }
 
-double Branch :: CurveProfile :: measureRadAngle( CurveProfile &comparison ) {
+double Branch :: CurveProfile :: measureRadAngle( const CurveProfile &comparison ) {
     return length*comparison.length;
+}
+
+void Branch :: CurveProfile :: rotate( const double angle, Direction &normalAxis ) {
+    length.rotate( angle, normalAxis );
 }
 
 void Branch :: CurveProfile :: print() {
@@ -114,7 +173,7 @@ void Branch :: CurveProfile :: print() {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-Leaf :: Leaf( Point &baseIn, Direction &meridianIn, double occlusionIn ) 
+Leaf :: Leaf( const Point &baseIn, const Direction &meridianIn, const double occlusionIn ) 
 :   base(baseIn),
     meridian(meridianIn),
     occlusion(occlusionIn) {}
