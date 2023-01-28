@@ -8,8 +8,6 @@ class Branch;
 class Leaf;
 
 #define MIN_DIAM 0.2
-#define MIN_LENGTH 0.1
-#define DEFLECTION_RAD 0.17453292519943295769236907684886
 #define LEAVES_PER_BRANCH 1
 
 using std::size_t;
@@ -18,43 +16,46 @@ typedef std::array<Leaf, LEAVES_PER_BRANCH> aLeaf;
 
 class Leaf {
     double occlusion = 1;
-    Direction meridian;
+    CVector meridian;
     double moisture;
 
     public:
     Point base;
 
     Leaf(){}
-    Leaf( const Point &baseIn, const Direction &lengthIn, const double occlusionIn = 1 );
+    Leaf( const Point &baseIn, const CVector &lengthIn, const double occlusionIn = 1 );
 
     Point getEnd();
     void print();
 };
 
 class Branch {
-    class CurveProfile {
+    class LineSeg {
         public:
         Point base;
-        Direction path;
+        CVector path;
 
-        CurveProfile(){}
-        CurveProfile( const Point &baseIn, const Direction &lengthIn );
+        LineSeg(){}
+        LineSeg( const Point &baseIn, const CVector &lengthIn );
 
-        double length();
-        Point getPoint( const double &param );
-        Point getEnd();
+        double length() const;
+        Point getPoint( double param ) const;
+        Point getEnd() const;
 
-        double measureRadAngle( const CurveProfile &comparison );
-        double minDistance( CurveProfile &compare );
+        int checkBehindNextToOrInFront( const Point &check ) const;
+        bool projIntersect( const LineSeg &compare ) const;
+        double measureRadAngle( const LineSeg &comparison ) const;
+        double distance( const Point &compare ) const;
+        double distance( const LineSeg &compare ) const;
 
-        void rotateAroundBase( const double angle, Direction &normalAxis );
+        void rotate( double angle, const CVector &normalAxis );
 
         void print();
     };
 
     protected:
     double diameter = MIN_DIAM;
-    CurveProfile profile;
+    LineSeg profile;
     aLeaf leaves = {};
     vBranch children = {};
 
@@ -70,14 +71,17 @@ class Branch {
     size_t getNumChildren();
     size_t getNumLeaves();
     double getDiameter();
-    Direction getTipToTail();
+    CVector getTipToTail();
 
     double measureRadAngle( Branch &comparison );
-    double measureRadAngle( const size_t i, const size_t j );
-    double measureMinRadAngle( Branch &comparison );
-    double minDistance( Branch &compare );
+    double measureRadAngleBetweenChildren( const size_t i, const size_t j );
+    double measureMinRadAngleToChildren( Branch &comparison );
+    double distance( Branch &compare );
 
-    void rotate( const double angle, Direction &normalAxis );
+    void rotate( double angle, CVector &normalAxis );
 
     void print();
 };
+
+#undef MIN_DIAM
+#undef LEAVES_PER_BRANCH

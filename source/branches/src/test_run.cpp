@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
     mainBranch.print();
 
     cout << "Angle between child branches = ";
-    cout << mainBranch.measureRadAngle(0,1) << endl;
+    cout << mainBranch.measureRadAngleBetweenChildren(0,1) << endl;
 
     return 0;
 }

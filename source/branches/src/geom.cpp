@@ -29,16 +29,20 @@ const double& Point :: operator[]( size_t i ) const {
     return coordinates[i];
 }
 
-Point& Point :: operator+=( const Direction &rhs ) {
+Point& Point :: operator+=( const CVector &rhs ) {
     for( size_t i=0; i<3; ++i ) {
         (*this)[i] += rhs[i];
     }
     return *this;
 }
 
-Point operator+( Point lhs, const Direction &rhs ) {
+Point operator+( Point lhs, const CVector &rhs ) {
     lhs += rhs;
     return lhs;
+}
+
+double Point :: distance( const Point &other ) {
+    return (other - *this).length();
 }
 
 void Point :: print() {
@@ -47,89 +51,101 @@ void Point :: print() {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-Direction :: Direction( double componentsIn[3] ) {
+CVector :: CVector( double componentsIn[3] ) {
     for( size_t i=0; i<3; ++i ) {
         components[i] = componentsIn[i];
     }
 }
 
-Direction :: Direction( double dxIn, double dyIn, double dzIn ) {
+CVector :: CVector( double dxIn, double dyIn, double dzIn ) {
     dx = dxIn;
     dy = dyIn;
     dz = dzIn;
 }
 
-double& Direction :: operator[]( size_t i ) {
+double& CVector :: operator[]( size_t i ) {
     return components[i];
 }
 
-const double& Direction :: operator[]( size_t i ) const {
+const double& CVector :: operator[]( size_t i ) const {
     return components[i];
 }
 
-Direction& Direction :: operator+=( const Direction &rhs ) {
+CVector& CVector :: operator+=( const CVector &rhs ) {
     for( size_t i=0; i<3; ++i ) {
         (*this)[i] += rhs[i];
     }
     return *this;
 }
 
-Direction operator+( Direction lhs, const Direction &rhs ) {
+CVector& CVector :: operator-=( const CVector &rhs ) {
+    for( size_t i=0; i<3; ++i ) {
+        (*this)[i] -= rhs[i];
+    }
+    return *this;
+}
+
+CVector operator+( CVector lhs, const CVector &rhs ) {
     lhs += rhs;
     return lhs;
 }
 
-Direction operator-( Point lhs, const Point &rhs ) {
-    Direction delta;
+CVector operator-( CVector lhs, const CVector &rhs ) {
+    lhs -= rhs;
+    return lhs;
+}
+
+CVector operator-( Point lhs, const Point &rhs ) {
+    CVector delta;
     for( size_t i=0; i<3; ++i ) {
         delta[i] = lhs[i] - rhs[i];
     }
     return delta;
 }
 
-Direction& Direction :: operator*=( const double &rhs ) {
+CVector& CVector :: operator*=( const double &rhs ) {
     for( size_t i=0; i<3; ++i ) {
         (*this)[i] *= rhs;
     }
     return *this;
 }
 
-Direction operator*( double lhs, const Direction &rhs ) {
-    Direction vec = rhs;
+CVector operator*( double lhs, const CVector &rhs ) {
+    CVector vec = rhs;
     vec *= lhs;
     return vec;
 }
 
-Direction operator*( Direction lhs, const double &rhs ) {
+CVector operator*( CVector lhs, const double &rhs ) {
     lhs *= rhs;
     return lhs;
 }
 
-double operator*( Direction lhs, const Direction &rhs ) {
+double operator*( CVector lhs, const CVector &rhs ) {
     return lhs.dx*rhs.dx + lhs.dy*rhs.dy + lhs.dz*rhs.dz;
 }
 
-Direction cross( const Direction &lhs, const Direction &rhs ) {
-    return Direction( lhs.dy*rhs.dz - lhs.dz*rhs.dy, lhs.dz*rhs.dx - lhs.dx*rhs.dz, lhs.dx*rhs.dy - lhs.dy*rhs.dx );
+CVector CVector :: cross( const CVector &rhs ) const {
+    return CVector( dy*rhs.dz - dz*rhs.dy, dz*rhs.dx - dx*rhs.dz, dx*rhs.dy - dy*rhs.dx );
 }
 
-void Direction :: rotate( const double angle, Direction &normalAxis ) {
-    Direction unitAxis = ( 1 / normalAxis.length() ) * normalAxis;
-    Direction normal = cross( unitAxis, *this );
+void CVector :: rotate( const double angle, const CVector &normalAxis ) {
+    CVector unitAxis = ( 1 / normalAxis.length() ) * normalAxis;
+    CVector normal = unitAxis.cross( *this );
     double cosAngle = cos(angle);
     double sinAngle = sin(angle);
 
-    *this = ( unitAxis * (*this) )*unitAxis + cosAngle*cross( normal, unitAxis ) + sinAngle*normal;
+    *this = ( unitAxis * (*this) )*unitAxis + cosAngle*normal.cross( unitAxis ) + sinAngle*normal;
 }
 
-void Direction :: normalize() {
+void CVector :: normalize() {
     double l = length();
     if( l != 0 )
         (*this) *= 1 / l;
 }
 
-double Direction :: length() { return sqrt((*this) * (*this)); }
+double CVector :: length() const { return sqrt((*this) * (*this)); }
 
-void Direction :: print() {
+void CVector :: print() const {
     cout << "(dx,dy,dz) = ( " << dx << ", " << dy << ", " << dz << " )" << endl; 
 }
