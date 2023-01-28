@@ -79,6 +79,14 @@ Direction operator+( Direction lhs, const Direction &rhs ) {
     return lhs;
 }
 
+Direction operator-( Point lhs, const Point &rhs ) {
+    Direction delta;
+    for( size_t i=0; i<3; ++i ) {
+        delta[i] = lhs[i] - rhs[i];
+    }
+    return delta;
+}
+
 Direction& Direction :: operator*=( const double &rhs ) {
     for( size_t i=0; i<3; ++i ) {
         (*this)[i] *= rhs;
@@ -114,9 +122,14 @@ void Direction :: rotate( const double angle, Direction &normalAxis ) {
     *this = ( unitAxis * (*this) )*unitAxis + cosAngle*cross( normal, unitAxis ) + sinAngle*normal;
 }
 
-double Direction :: length() { return sqrt((*this) * (*this));}
+void Direction :: normalize() {
+    double l = length();
+    if( l != 0 )
+        (*this) *= 1 / l;
+}
+
+double Direction :: length() { return sqrt((*this) * (*this)); }
 
 void Direction :: print() {
     cout << "(dx,dy,dz) = ( " << dx << ", " << dy << ", " << dz << " )" << endl; 
-
 }

@@ -33,15 +33,17 @@ void Branch :: resetChildBasePoints() {
 
 void Branch :: addChild() {
     auto newChild = std::make_unique<Branch>();
-    int numAttempts = 10;
+    int numAttempts = 4;
     while( measureMinRadAngle(*newChild) < DEFLECTION_RAD && --numAttempts > 0 ) {
         adjustNewChild(newChild);
         cout << "Min radian angle to children = ";
         cout << measureMinRadAngle(*newChild) << endl;
     }
 
-    children.emplace_back(std::move(newChild));
-    resetChildBasePoints();
+    if( numAttempts > 0 ) {
+        children.emplace_back(std::move(newChild));
+        resetChildBasePoints();
+    }
 }
 
 void Branch :: adjustNewChild( std::unique_ptr<Branch> &newChild ) {
@@ -56,13 +58,13 @@ void Branch :: adjustNewChild( std::unique_ptr<Branch> &newChild ) {
             cout << "Radian angle to newChild = " << radAngleToChild << " is less than allowed " << DEFLECTION_RAD << endl;
             cout << "Rotating away" << endl;
 
-            Direction crossNew = cross( ( 1 / child->profile.length.length() ) * child->profile.length, ( 1 / newChild->profile.length.length() ) * newChild->profile.length );
+            Direction crossNew = cross( ( 1 / child->profile.path.length() ) * child->profile.path, ( 1 / newChild->profile.path.length() ) * newChild->profile.path );
 
             if( crossNew.length() < MIN_LENGTH ) {
                 crossNew = { 1, 0, 0 };
             }
 
-            thisResult = newChild->profile.length;
+            thisResult = newChild->profile.path;
             thisResult.rotate( DEFLECTION_RAD - radAngleToChild, crossNew );
             averageResult += thisResult;
             thisResult = { 0, 0, 0 };
@@ -71,8 +73,25 @@ void Branch :: adjustNewChild( std::unique_ptr<Branch> &newChild ) {
 
     if(collision) {
         averageResult *= 1 / averageResult.length();
-        newChild->profile.length = averageResult;
+        newChild->profile.path = averageResult;
     }
+}
+
+void Branch :: addChild( std::unique_ptr<Branch> &child ) {
+    children.emplace_back(std::move(child));
+    resetChildBasePoints();
+}
+
+Direction Branch :: getTipToTail(){
+    return profile.path;
+}
+
+double Branch :: measureRadAngle( Branch &comparison ) {
+    return acos( ( getTipToTail() * comparison.getTipToTail() ) / ( profile.length() * comparison.profile.length() ) );
+}
+
+double Branch :: measureRadAngle( size_t i, size_t j ) {
+    return acos( ( children[0]->getTipToTail() * children[1]->getTipToTail() ) / ( children[0]->profile.length() * children[1]->profile.length() ) );
 }
 
 double Branch :: measureMinRadAngle( Branch &comparison ) {
@@ -87,25 +106,12 @@ double Branch :: measureMinRadAngle( Branch &comparison ) {
     return minRadAngleToChild;
 }
 
-void Branch :: addChild( std::unique_ptr<Branch> &child ) {
-    children.emplace_back(std::move(child));
-    resetChildBasePoints();
-}
-
-Direction Branch :: getTipToTail(){
-    return profile.length;
-}
-
-double Branch :: measureRadAngle( Branch &comparison ) {
-    return acos( ( getTipToTail() * comparison.getTipToTail() ) / ( profile.pathLength() * comparison.profile.pathLength() ) );
-}
-
-double Branch :: measureRadAngle( size_t i, size_t j ) {
-    return acos( ( children[0]->getTipToTail() * children[1]->getTipToTail() ) / ( children[0]->profile.pathLength() * children[1]->profile.pathLength() ) );
+double Branch :: minDistance( Branch &compare ) {
+    return profile.minDistance(compare.profile);
 }
 
 void Branch :: rotate( const double angle, Direction &normalAxis ) {
-    profile.rotate( angle, normalAxis );
+    profile.rotateAroundBase( angle, normalAxis );
 }
 
 //=============================================================================
@@ -136,26 +142,31 @@ void Branch :: print() {
 ///////////////////////////////////////////////////////////////////////////////
 
 Branch :: CurveProfile :: CurveProfile( const Point &baseIn, const Direction &lengthIn )
-    : base(baseIn), length(lengthIn) {}
+    : base(baseIn), path(lengthIn) {}
 
-double Branch :: CurveProfile :: pathLength() {
-    return sqrt(length*length);
+double Branch :: CurveProfile :: length() {
+    return sqrt(path*path);
 }
 
 Point Branch :: CurveProfile :: getPoint( const double &param ) {
-    return base + (param * length);
+    return base + (param * path);
 }
 
 Point Branch :: CurveProfile :: getEnd() {
-    return base + length;
+    return base + path;
 }
 
 double Branch :: CurveProfile :: measureRadAngle( const CurveProfile &comparison ) {
-    return length*comparison.length;
+    return path*comparison.path;
 }
 
-void Branch :: CurveProfile :: rotate( const double angle, Direction &normalAxis ) {
-    length.rotate( angle, normalAxis );
+double Branch :: CurveProfile :: minDistance( CurveProfile &compare ) {
+    Direction normal = cross( path, compare.path );normal.normalize();
+    return abs( ( base - compare.base ) * normal );
+}
+
+void Branch :: CurveProfile :: rotateAroundBase( const double angle, Direction &normalAxis ) {
+    path.rotate( angle, normalAxis );
 }
 
 void Branch :: CurveProfile :: print() {
@@ -163,9 +174,9 @@ void Branch :: CurveProfile :: print() {
     base.print();
 
     cout << "length vector: ";
-    length.print();
+    path.print();
 
-    cout << "path length = " << pathLength() << endl;
+    cout << "path length = " << length() << endl;
 
     cout << "end point: ";
     getEnd().print();

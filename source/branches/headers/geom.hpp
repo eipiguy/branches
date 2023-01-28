@@ -38,6 +38,8 @@ class Direction {
     Direction& operator+=( const Direction &rhs );
     friend Direction operator+( Direction lhs, const Direction &rhs );
 
+    friend Direction operator-( Point lhs, const Point &rhs );
+
     Direction& operator*=( const double &rhs );
     friend Direction operator*( double lhs, const Direction &rhs );
     friend Direction operator*( Direction lhs, const double &rhs );
@@ -47,6 +49,7 @@ class Direction {
 
     friend Direction cross( const Direction &lhs, const Direction &rhs );
 
+    void normalize();
     void rotate( const double angle, Direction &normalAxis );
 
     double length();

@@ -19,6 +19,7 @@ typedef std::array<Leaf, LEAVES_PER_BRANCH> aLeaf;
 class Leaf {
     double occlusion = 1;
     Direction meridian;
+    double moisture;
 
     public:
     Point base;
@@ -34,18 +35,19 @@ class Branch {
     class CurveProfile {
         public:
         Point base;
-        Direction length;
+        Direction path;
 
         CurveProfile(){}
         CurveProfile( const Point &baseIn, const Direction &lengthIn );
 
-        double pathLength();
+        double length();
         Point getPoint( const double &param );
         Point getEnd();
 
         double measureRadAngle( const CurveProfile &comparison );
+        double minDistance( CurveProfile &compare );
 
-        void rotate( const double angle, Direction &normalAxis );
+        void rotateAroundBase( const double angle, Direction &normalAxis );
 
         void print();
     };
@@ -73,6 +75,7 @@ class Branch {
     double measureRadAngle( Branch &comparison );
     double measureRadAngle( const size_t i, const size_t j );
     double measureMinRadAngle( Branch &comparison );
+    double minDistance( Branch &compare );
 
     void rotate( const double angle, Direction &normalAxis );
 
