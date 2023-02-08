@@ -1,5 +1,5 @@
 #include <iostream>
-#include "branches.hpp"
+#include "branch.hpp"
 
 using std::cout;
 using std::endl;
@@ -33,6 +33,9 @@ int main(int argc, char* argv[]){
 
     cout << "Angle between child branches = ";
     cout << mainBranch.measureRadAngleBetweenChildren(0,1) << endl;
+
+    cout << "Distance between children = ";
+    cout << mainBranch.distance(mainBranch);
 
     return 0;
 }

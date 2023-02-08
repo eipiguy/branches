@@ -8,11 +8,11 @@ target_include_directories( branches
 )
 target_sources( branches
     PUBLIC
-        headers/branches.hpp
+        headers/branch.hpp
         headers/geom.hpp
     PRIVATE
         src/geom.cpp
-        src/branches.cpp
+        src/branch.cpp
 )
 
 add_executable( test_run )
