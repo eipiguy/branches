@@ -242,6 +242,8 @@ double Branch :: LineSeg :: distance( const Point &compare ) const {
             case 1:
                 // point to end
                 return (compare-getEnd()).length();
+            default:
+                return 2; // should never get here
         }
 }
 
