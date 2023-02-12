@@ -24,16 +24,22 @@ target_sources( test_run
     PRIVATE
         src/test_run.cpp
 )
-target_link_libraries( test_run PRIVATE branches )
+target_link_libraries( test_run
+    PRIVATE
+        branches )
 
 enable_testing()
-add_executable( geom_test )
-target_sources( geom_test
+add_executable( tests )
+target_sources( tests
     PRIVATE
         test/geom_tests.cpp
+        test/branch_tests.cpp
 )
-target_link_libraries( geom_test PRIVATE GTest::gtest_main
+target_link_libraries( tests
+    PRIVATE
+        GTest::gtest_main
+        branches
 )
 
 include(GoogleTest)
-gtest_discover_tests(geom_test)
+gtest_discover_tests(tests)

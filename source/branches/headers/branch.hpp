@@ -15,8 +15,8 @@ typedef std::vector<std::unique_ptr<Branch>> vBranch;
 typedef std::array<Leaf, LEAVES_PER_BRANCH> aLeaf;
 
 class Leaf {
-    double occlusion = 1;
     CVector meridian;
+    double occlusion = 1;
     double moisture;
 
     public:

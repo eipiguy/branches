@@ -1,5 +1,6 @@
 #include <iostream>
 #include <math.h>
+#include <limits>
 
 #include "geom.hpp"
 
@@ -130,18 +131,24 @@ CVector CVector :: cross( const CVector &rhs ) const {
 }
 
 void CVector :: rotate( const double angle, const CVector &normalAxis ) {
-    CVector unitAxis = ( 1 / normalAxis.length() ) * normalAxis;
+    CVector unitAxis = normalAxis;
+    unitAxis.normalize();
     CVector normal = unitAxis.cross( *this );
     double cosAngle = cos(angle);
     double sinAngle = sin(angle);
 
-    *this = ( unitAxis * (*this) )*unitAxis + cosAngle*normal.cross( unitAxis ) + sinAngle*normal;
+    *this = 
+    (unitAxis*(*this))*unitAxis
+        + cosAngle*normal.cross( unitAxis )
+        + sinAngle*normal;
 }
 
 void CVector :: normalize() {
     double l = length();
-    if( l != 0 )
+    if( l > DBL_EPSILON )
         (*this) *= 1 / l;
+    else
+        (*this) = { 0, 0, 0 };
 }
 
 double CVector :: length() const { return sqrt((*this) * (*this)); }
