@@ -42,11 +42,11 @@ Point operator+( Point lhs, const CVector &rhs ) {
     return lhs;
 }
 
-double Point :: distance( const Point &other ) {
+double Point :: distance( const Point &other ) const {
     return (other - *this).length();
 }
 
-void Point :: print() {
+void Point :: print() const {
     cout << "(x,y,z) = ( " << x << ", " << y << ", " << z << " )" << endl; 
 }
 

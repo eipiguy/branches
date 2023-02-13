@@ -18,9 +18,9 @@ class Point {
     Point& operator+=( const CVector &rhs );
     friend Point operator+( Point lhs, const CVector &rhs );
 
-    double distance( const Point &other );
+    double distance( const Point &other ) const;
 
-    void print();
+    void print() const;
 };
 
 class CVector {

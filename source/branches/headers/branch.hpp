@@ -8,11 +8,19 @@ class Branch;
 class Leaf;
 
 #define MIN_DIAM 0.2
+#define EXTENSION_DISTANCE 0.2
 #define LEAVES_PER_BRANCH 1
 
 using std::size_t;
 typedef std::vector<std::unique_ptr<Branch>> vBranch;
 typedef std::array<Leaf, LEAVES_PER_BRANCH> aLeaf;
+
+class Nutrients {
+    public:
+    double moisture;
+    double energy;
+    double splitInhibit;
+};
 
 class Leaf {
     CVector meridian;
@@ -25,12 +33,12 @@ class Leaf {
     Leaf(){}
     Leaf( const Point &baseIn, const CVector &lengthIn, const double occlusionIn = 1 );
 
-    Point getEnd();
-    void print();
+    Point getEnd() const;
+    void print() const;
 };
 
 class Branch {
-    class LineSeg {
+    class LineSeg  {
         public:
         Point base;
         CVector path;
@@ -49,8 +57,9 @@ class Branch {
         double distance( const LineSeg &compare ) const;
 
         void rotate( double angle, const CVector &normalAxis );
+        void extend( const double distance = EXTENSION_DISTANCE );
 
-        void print();
+        void print() const;
     };
 
     protected:
@@ -58,6 +67,7 @@ class Branch {
     LineSeg profile;
     aLeaf leaves = {};
     vBranch children = {};
+    Nutrients availableNutrients;
 
     void adjustNewChild( std::unique_ptr<Branch> &child );
     void resetChildBasePoints();
@@ -68,20 +78,23 @@ class Branch {
     void addChild();
     void addChild( std::unique_ptr<Branch> &child );
 
-    size_t getNumChildren();
-    size_t getNumLeaves();
-    double getDiameter();
-    CVector getTipToTail();
+    size_t getNumChildren() const;
+    size_t getNumLeaves() const;
+    double getDiameter() const;
+    CVector getTipToTail() const;
 
-    double measureRadAngle( Branch &comparison );
-    double measureRadAngleBetweenChildren( const size_t i, const size_t j );
-    double measureMinRadAngleToChildren( Branch &comparison );
-    double distance( Branch &compare );
+    double measureRadAngle( Branch &comparison ) const;
+    double measureRadAngleBetweenChildren( const size_t i, const size_t j ) const;
+    double measureMinRadAngleToChildren( Branch &comparison ) const;
+    double distance( Branch &compare ) const;
 
-    void rotate( double angle, CVector &normalAxis );
+    void rotate( const double angle, const CVector &normalAxis );
+    void extend( const double distance = EXTENSION_DISTANCE );
+    void grow();
 
-    void print();
+    void print() const;
 };
 
 #undef MIN_DIAM
+#undef EXTENSION_DISTANCE
 #undef LEAVES_PER_BRANCH

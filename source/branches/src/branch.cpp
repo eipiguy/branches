@@ -92,25 +92,25 @@ void Branch :: addChild( std::unique_ptr<Branch> &child ) {
     resetChildBasePoints();
 }
 
-CVector Branch :: getTipToTail(){
+CVector Branch :: getTipToTail() const {
     return profile.path;
 }
 
-double Branch :: measureRadAngle( Branch &comparison ) {
+double Branch :: measureRadAngle( Branch &comparison ) const {
     return acos(
         ( getTipToTail() * comparison.getTipToTail() )
         / ( profile.length() * comparison.profile.length() )
     );
 }
 
-double Branch :: measureRadAngleBetweenChildren( size_t i, size_t j ) {
+double Branch :: measureRadAngleBetweenChildren( size_t i, size_t j ) const {
     return acos( 
         ( children[i]->getTipToTail() * children[j]->getTipToTail() )
         / ( children[i]->profile.length() * children[j]->profile.length() )
     );
 }
 
-double Branch :: measureMinRadAngleToChildren( Branch &comparison ) {
+double Branch :: measureMinRadAngleToChildren( Branch &comparison ) const {
     double radAngleToChild = 0;
     double minRadAngleToChild = 2;
     for( auto &child : children ) {
@@ -122,25 +122,48 @@ double Branch :: measureMinRadAngleToChildren( Branch &comparison ) {
     return minRadAngleToChild;
 }
 
-double Branch :: distance( Branch &compare ) {
+double Branch :: distance( Branch &compare ) const {
     return profile.distance(compare.profile);
 }
 
-void Branch :: rotate( const double angle, CVector &normalAxis ) {
+void Branch :: rotate( const double angle, const CVector &normalAxis ) {
     profile.rotate( angle, normalAxis );
+}
+
+void Branch :: extend( const double distance ) {
+    profile.extend(distance);
+}
+
+void Branch :: grow() {
+    // if has children, call grow on children
+    if(getNumChildren() > 0) {
+        for(auto &child : children){
+            child->grow();
+        }
+    }
+    // if no children and conditions are right
+    else {
+        if(false) {
+            // split if possible
+        }else if(false) {
+            // otherwise extend if possible
+            extend();
+        }
+    }
+    // otherwise store up for next grow cycle
 }
 
 //=============================================================================
 
-size_t Branch :: getNumChildren() { return children.size(); }
+size_t Branch :: getNumChildren() const { return children.size(); }
 
-size_t Branch :: getNumLeaves() { return leaves.size(); }
+size_t Branch :: getNumLeaves() const { return leaves.size(); }
 
-double Branch :: getDiameter() { return diameter; }
+double Branch :: getDiameter() const { return diameter; }
 
 //=============================================================================
 
-void Branch :: print() {
+void Branch :: print() const {
     cout << endl << "Curve Profile:" << endl;
     profile.print();
 
@@ -286,11 +309,15 @@ double minPairDistance( std::vector<Point> &lhList, std::vector<Point> &rhList) 
     return minDist;
 }
 
-void Branch :: LineSeg :: rotate( double angle, const CVector &normalAxis ) {
+void Branch :: LineSeg :: rotate( const double angle, const CVector &normalAxis ) {
     path.rotate( angle, normalAxis );
 }
 
-void Branch :: LineSeg :: print() {
+void Branch :: LineSeg :: extend( const double distance ) {
+    path += (distance/path.length())*path;
+}
+
+void Branch :: LineSeg :: print() const {
     cout << "base point: ";
     base.print();
 
@@ -311,9 +338,9 @@ Leaf :: Leaf( const Point &baseIn, const CVector &meridianIn, const double occlu
     meridian(meridianIn),
     occlusion(occlusionIn) {}
 
-Point Leaf :: getEnd() { return base + meridian; }
+Point Leaf :: getEnd() const { return base + meridian; }
 
-void Leaf :: print() {
+void Leaf :: print() const {
     cout << "occlusion = " << occlusion << endl;
 
     cout << "base point: ";
