@@ -28,7 +28,7 @@ Branch :: Branch()
 
 //=============================================================================
 
-void Branch :: resetChildBasePoints() {
+void Branch :: resetBasePoints() {
     Point currentEnd = profile.getEnd();
 
     for( auto &leaf : leaves ) {
@@ -37,7 +37,7 @@ void Branch :: resetChildBasePoints() {
 
     for( auto &child : children ) {
         child->profile.base = currentEnd;
-        child->resetChildBasePoints();
+        child->resetBasePoints();
     }
 }
 
@@ -52,7 +52,7 @@ void Branch :: addChild() {
 
     if( numAttempts > 0 ) {
         children.emplace_back(std::move(newChild));
-        resetChildBasePoints();
+        resetBasePoints();
     }
 }
 
@@ -89,7 +89,15 @@ void Branch :: adjustNewChild( std::unique_ptr<Branch> &newChild ) {
 
 void Branch :: addChild( std::unique_ptr<Branch> &child ) {
     children.emplace_back(std::move(child));
-    resetChildBasePoints();
+    resetBasePoints();
+}
+
+bool Branch :: canGrow() const {
+    return availableNutrients.energy > growEnergy;
+}
+
+bool Branch :: canSplit() const {
+    return availableNutrients.splitInhibit < maxInhibit;
 }
 
 CVector Branch :: getTipToTail() const {
@@ -128,29 +136,35 @@ double Branch :: distance( Branch &compare ) const {
 
 void Branch :: rotate( const double angle, const CVector &normalAxis ) {
     profile.rotate( angle, normalAxis );
+
+    Point currentEnd = profile.getEnd();
+    for( auto &child : children ) {
+        child->profile.base = currentEnd;
+        child->rotate(angle,normalAxis);
+    }
 }
 
 void Branch :: extend( const double distance ) {
+    // extend self
     profile.extend(distance);
+    // relocate base point of children
+    resetBasePoints();
 }
 
 void Branch :: grow() {
-    // if has children, call grow on children
-    if(getNumChildren() > 0) {
-        for(auto &child : children){
-            child->grow();
-        }
+    // propogate grow command to children
+    for(auto &child : children){
+        child->grow();
     }
-    // if no children and conditions are right
-    else {
-        if(false) {
-            // split if possible
-        }else if(false) {
+    if( !isHardened ) {
+        // split if not inhibited
+        if(canSplit()) {
+            
+        }else if(canGrow()) {
             // otherwise extend if possible
             extend();
         }
     }
-    // otherwise store up for next grow cycle
 }
 
 //=============================================================================

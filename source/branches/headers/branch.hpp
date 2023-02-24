@@ -7,6 +7,8 @@
 class Branch;
 class Leaf;
 
+#define GROW_ENERGY 1.0
+#define MAX_INHIBIT 0.5
 #define MIN_DIAM 0.2
 #define EXTENSION_DISTANCE 0.2
 #define LEAVES_PER_BRANCH 1
@@ -63,20 +65,26 @@ class Branch {
     };
 
     protected:
+    const double maxInhibit = MAX_INHIBIT;
+    const double growEnergy = GROW_ENERGY;
     double diameter = MIN_DIAM;
     LineSeg profile;
     aLeaf leaves = {};
     vBranch children = {};
     Nutrients availableNutrients;
+    bool isHardened = false;
 
     void adjustNewChild( std::unique_ptr<Branch> &child );
-    void resetChildBasePoints();
+    void resetBasePoints();
     void addLeaf( std::unique_ptr<Leaf> &leaf );
 
     public:
     Branch();
     void addChild();
     void addChild( std::unique_ptr<Branch> &child );
+
+    bool canGrow() const;
+    bool canSplit() const;
 
     size_t getNumChildren() const;
     size_t getNumLeaves() const;
@@ -95,6 +103,7 @@ class Branch {
     void print() const;
 };
 
+#undef MAX_INHIBIT
 #undef MIN_DIAM
 #undef EXTENSION_DISTANCE
 #undef LEAVES_PER_BRANCH
